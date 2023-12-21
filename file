@@ -1,0 +1,56 @@
+/*****************************************
+* Русакова Екатерина Алексеевна, ПИ-231  *
+* Дата: 30.10.2023                       *
+* Тема: Работа с файлами, 16 вариант     *
+******************************************/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstring>
+using namespace std;
+
+int main() {
+    char surname[20], name[20], group[10];
+    int markMath, markPhis, markInf;
+    float srBall;
+
+    ifstream fin("student.txt");
+    ofstream fout("output.txt");
+
+    if (!fin.is_open()) {
+        cout << "Ошибка открытия файла!" << endl;
+        return -1;
+    }
+    
+    cout << "Сведения о студентах:" << endl;
+
+    while (fin >> surname >> name >> group >> markMath >> markPhis >> markInf) {
+        srBall = (markMath + markPhis + markInf) / 3.0;
+        fout << surname << " " << name << " " << group << " " << markMath << " " << markPhis << " " << markInf << " " << srBall << endl;
+        cout << surname << " " << name << " " << group << " " << markMath << " " << markPhis << " " << markInf << " " << srBall << endl;
+    }
+    
+    fin.close();
+    fout.close();
+
+    ifstream fin2("output.txt");
+    float minSrBall = 5.0;
+    char minSurname[20], minName[20], minGroup[10];
+    cout << "Самый неуспевающий студент:" << endl;
+
+    while (fin2 >> surname >> name >> group >> markMath >> markPhis >> markInf >> srBall) {
+        if (srBall < minSrBall) {
+            minSrBall = srBall;
+            strcpy(minSurname, surname);
+            strcpy(minName, name);
+            strcpy(minGroup, group);
+        }
+    }
+
+    fin2.close();
+
+    cout << minSurname << " " << minName << " " << minGroup << " " << minSrBall << endl;
+
+    return 0;
+}
